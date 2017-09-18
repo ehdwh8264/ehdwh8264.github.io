@@ -83,7 +83,7 @@
     }
 
     var kick = new XMLHttpRequest();
-    kick.open("Get","test.wav",true);   //  <---- replace this file with yours
+    kick.open("Get","base.wav",true);   //  <---- replace this file with yours
     kick.responseType = "arraybuffer";
     kick.onload = function(){
         context.decodeAudioData(kick.response, function(buffer){buffers[0] = buffer;});
@@ -119,11 +119,10 @@
 
 
     function playdrum(i) {
-        //
-        //
-        // fill out this funciton
-        //
-        //
+          source = context.createBufferSource();
+          source.buffer=buffers[i];     
+          source.connect(context.destination);
+          source.start();
     }
 
     function changegain(i,changedvalue){
@@ -135,7 +134,7 @@
         var gain = 1.0;
         //
         //
-        // fill out this funciton
+        gain = Math.pow(10,db_gain/20)*gain;
         //
         //
         return gain
