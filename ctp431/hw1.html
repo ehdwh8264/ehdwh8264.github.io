@@ -128,7 +128,7 @@
         context.decodeAudioData(kick.response, function(buffer){buffers[0] = buffer;});
     }
     kick.send();
-
+ 
     var snare = new XMLHttpRequest();
     snare.open("Get","snare.wav",true);  //  <---- replace this file with yours
     snare.responseType = "arraybuffer";
