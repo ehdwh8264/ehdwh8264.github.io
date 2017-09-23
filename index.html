@@ -122,7 +122,7 @@
     }
 
     var kick = new XMLHttpRequest();
-    kick.open("Get","base.wav",true);   //  <---- replace this file with yours
+    kick.open("Get","hihat.wav",true);   //  <---- replace this file with yours
     kick.responseType = "arraybuffer";
     kick.onload = function(){
         context.decodeAudioData(kick.response, function(buffer){buffers[0] = buffer;});
