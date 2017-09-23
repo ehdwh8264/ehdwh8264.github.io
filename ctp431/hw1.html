@@ -122,7 +122,7 @@
     }
 
     var kick = new XMLHttpRequest();
-    kick.open("Get","base.wav",true);   //  <---- replace this file with yours
+    kick.open("Get","kick.wav",true);   //  <---- replace this file with yours
     kick.responseType = "arraybuffer";
     kick.onload = function(){
         context.decodeAudioData(kick.response, function(buffer){buffers[0] = buffer;});
@@ -130,7 +130,7 @@
     kick.send();
 
     var snare = new XMLHttpRequest();
-    snare.open("Get","base.wav",true);  //  <---- replace this file with yours
+    snare.open("Get","snare.wav",true);  //  <---- replace this file with yours
     snare.responseType = "arraybuffer";
     snare.onload = function(){
         context.decodeAudioData(snare.response, function(buffer){buffers[1] = buffer;});
@@ -138,7 +138,7 @@
     snare.send();
 
     var hihat = new XMLHttpRequest();
-    hihat.open("Get","base.wav",true);  //  <---- replace this file with yours
+    hihat.open("Get","hihat.wav",true);  //  <---- replace this file with yours
     hihat.responseType = "arraybuffer";
     hihat.onload = function(){
         context.decodeAudioData(hihat.response, function(buffer){buffers[2] = buffer;});
@@ -146,7 +146,7 @@
     hihat.send();
 
 var tom = new XMLHttpRequest();
-    tom.open("Get","base.wav",true);  //  <---- replace this file with yours
+    tom.open("Get","tom.wav",true);  //  <---- replace this file with yours
     tom.responseType = "arraybuffer";
     tom.onload = function(){
         context.decodeAudioData(tom.response, function(buffer){buffers[3] = buffer;});
