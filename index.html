@@ -17,6 +17,16 @@
         height:120px;
         font-size:15px
     }
+    button2 {
+        padding: 5px;
+        background: rgb(200, 200, 200);
+        border: 1px solid rgb(122, 122, 122);
+        border-radius: 2px;
+        outline: none;
+        width:80px;
+        height:120px;
+        font-size:15px
+    }
 
     button.active, button:active {
         background: rgb(100, 100, 100);
@@ -56,10 +66,10 @@
 
 <h1> Homework#1: Beatbox </h1>
 <h2> Create BeatBox!! on your Music </h2>
-    
+
     <input id="fileChooseInput" type="file"></input>
-    <button onclick="playSound(myAudioBuffer)">Play</button>
-    <button onclick="stopSound()">Stop</button>  
+    <button2 onclick="playSound(myAudio)">Play</button2>
+    <button2 onclick="stopSound()">Stop</button2>   
 <br>
 <div id = "kick" align = "center">
     <button id="kickPad" onmousedown="playdrum(0)" > Kick ('a' key)</button>
@@ -220,9 +230,8 @@ var tom = new XMLHttpRequest();
         element.dispatchEvent(event);
     }
 
-
-var context;
-    var myAudioBuffer = null;
+var context2;
+    var myAudio = null;
 
     // initialization
     window.onload=function(){
@@ -230,7 +239,7 @@ var context;
         control.addEventListener("change", fileChanged, false);
 
         window.AudioContext = window.AudioContext || window.webkitAudioContext;
-        context = new AudioContext();
+        context2 = new AudioContext();
     }
 
     // 
@@ -242,8 +251,8 @@ var context;
     }
 
     function fileLoaded(e){
-        context.decodeAudioData(e.target.result, function(buffer) {
-          myAudioBuffer = buffer;
+        context2.decodeAudioData(e.target.result, function(buffer) {
+          myAudio = buffer;
         });
         console.log("File has been loaded.")
     }
@@ -251,16 +260,23 @@ var context;
     var source = null;
 
     function playSound(anybuffer) {
-      source = context.createBufferSource();
+      source = context2.createBufferSource();
       source.buffer = anybuffer;
-      source.connect(context.destination);
+      source.connect(context2.destination);
       source.start();
     }
     function stopSound() {
       if (source) {
         source.stop();
       }
-    }       
+    }
+
+
+
+
+
+
+
 
 </script>
 </body>

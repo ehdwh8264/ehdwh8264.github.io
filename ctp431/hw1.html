@@ -17,6 +17,16 @@
         height:120px;
         font-size:15px
     }
+    button2 {
+        padding: 5px;
+        background: rgb(200, 200, 200);
+        border: 1px solid rgb(122, 122, 122);
+        border-radius: 2px;
+        outline: none;
+        width:80px;
+        height:120px;
+        font-size:15px
+    }
 
     button.active, button:active {
         background: rgb(100, 100, 100);
@@ -39,6 +49,11 @@
         height:600px;
         float:left;
     }
+    #tom{
+        width:130px;
+        height:600px;
+        float:left;
+    }
 
     input.volume {
         width:120px;
@@ -50,6 +65,11 @@
 <body>
 
 <h1> Homework#1: Beatbox </h1>
+<h2> Create BeatBox!! on your Music </h2>
+
+    <input id="fileChooseInput" type="file"></input>
+    <button2 onclick="playSound(myAudio)">Play</button2>
+    <button2 onclick="stopSound()">Stop</button2>   
 <br>
 <div id = "kick" align = "center">
     <button id="kickPad" onmousedown="playdrum(0)" > Kick ('a' key)</button>
@@ -66,16 +86,21 @@
     <p id="hihatVolLabel"></p>
     <input class="volume" onchange="changegain(2,this.value)" id="hihatVol" title="Hihat volume" type="range" min="-24" max ="0" value = "-12">
 </div>
+<div id = "tom" align = "center">
+    <button id="tomPad" onmousedown="playdrum(3)"> tom ('k' key)</button>
+    <p id="tomVolLabel"></p>
+    <input class="volume" onchange="changegain(3,this.value)" id="tomVol" title="Tom volume" type="range" min="-24" max ="0" value = "-12">
+</div>
 
 <script>
     var context = new (window.AudioContext || window.webkitAudioContext)();
 
-    var buffers = new Array(3); // 0 : kick, 1 : snare, 2 : hihat
-    var volume_id = new Array("kickVol","snareVol","hihatVol");
-    var volume_label_id = new Array("kickVolLabel","snareVolLabel","hihatVolLabel");
-    var gain_nodes = new Array(3);
+    var buffers = new Array(4); // 0 : kick, 1 : snare, 2 : hihat
+    var volume_id = new Array("kickVol","snareVol","hihatVol","tomVol");
+    var volume_label_id = new Array("kickVolLabel","snareVolLabel","hihatVolLabel","tomVolLabel");
+    var gain_nodes = new Array(4);
 
-    for (i  = 0; i < 3; i++) {
+    for (i  = 0; i < 4; i++) {
         gain_nodes[i] = context.createGain();
         var vol = document.getElementById(volume_id[i]).value;
         gain_nodes[i].gain.value = db2gain(vol);
@@ -106,6 +131,13 @@
     }
     hihat.send();
 
+var tom = new XMLHttpRequest();
+    tom.open("Get","base.wav",true);  //  <---- replace this file with yours
+    tom.responseType = "arraybuffer";
+    tom.onload = function(){
+        context.decodeAudioData(tom.response, function(buffer){buffers[3] = buffer;});
+    }
+    tom.send();
 
     window.onload=function(){
         window.addEventListener('keydown', function (key) {
@@ -159,6 +191,11 @@
                 hihatpad.className = 'active';
                 simulateClick(hihatpad);
                 break;
+            case 75: //'k'
+                var tompad = document.getElementById("tomPad"); 
+                tompad.className = 'active';
+                simulateClick(tompad);
+                break;
         }
     }
 
@@ -176,6 +213,10 @@
                 var hihatpad = document.getElementById("hihatPad"); 
                 hihatpad.className = '';
                 break;
+            case 75: //'l'
+                var tompad = document.getElementById("tomPad"); 
+                tompad.className = '';
+                break;
         }
     }
 
@@ -188,6 +229,54 @@
         });
         element.dispatchEvent(event);
     }
+
+var context2;
+    var myAudio = null;
+
+    // initialization
+    window.onload=function(){
+        var control = document.getElementById("fileChooseInput");
+        control.addEventListener("change", fileChanged, false);
+
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        context2 = new AudioContext();
+    }
+
+    // 
+    function fileChanged(e){
+        var file = e.target.files[0];
+        var fileReader = new FileReader();
+        fileReader.onload = fileLoaded;
+        fileReader.readAsArrayBuffer(file);
+    }
+
+    function fileLoaded(e){
+        context2.decodeAudioData(e.target.result, function(buffer) {
+          myAudio = buffer;
+        });
+        console.log("File has been loaded.")
+    }
+
+    var source = null;
+
+    function playSound(anybuffer) {
+      source = context2.createBufferSource();
+      source.buffer = anybuffer;
+      source.connect(context2.destination);
+      source.start();
+    }
+    function stopSound() {
+      if (source) {
+        source.stop();
+      }
+    }
+
+
+
+
+
+
+
 
 </script>
 </body>
