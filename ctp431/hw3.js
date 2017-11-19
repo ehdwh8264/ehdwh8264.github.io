@@ -23,7 +23,7 @@ var delay_params = {
 	delayWetDry: 0.48
 };
 var reverb_params = {
-	reverbWetDry: 0.5
+	reverbWetDry: 0.8
 };
 
 // default
