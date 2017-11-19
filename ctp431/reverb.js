@@ -6,7 +6,7 @@ var Reverb = function(context, parameters){
 
 	var reverb = context.createConvolver();
  	var ir = new XMLHttpRequest();
- 	ir.open("Get","slinky_ir.wav",true);
+ 	ir.open("Get","ky_ir.wav",true);
  	ir.responseType = "arraybuffer";
  	//console.log("asd")
  	ir.onload = function() {
